@@ -1,0 +1,124 @@
+/* =============================================================
+   BUTTON.MODULE.CSS — Apple Liquid Glass Style
+   ============================================================= */
+
+/* ---- Base ---- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: none;
+  border-radius: 14px;
+  font-family: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background 0.25s ease,
+    box-shadow 0.25s ease,
+    transform 0.15s ease,
+    border-color 0.25s ease;
+  text-decoration: none;
+  white-space: nowrap;
+  line-height: 1;
+  letter-spacing: 0.01em;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.25) 0%,
+    rgba(255, 255, 255, 0.05) 100%
+  );
+  pointer-events: none;
+}
+
+/* ---- Sizes ---- */
+.normal { padding: 14px 32px; font-size: 16px; }
+.medium { padding: 10px 24px; font-size: 14px; }
+.small  { padding:  6px 16px; font-size: 12px; }
+
+/* ---- Primary — solid glass green ---- */
+.primary {
+  background: linear-gradient(135deg, rgba(76, 175, 79, 0.85), rgba(56, 142, 60, 0.9));
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow:
+    0 2px 8px rgba(76, 175, 79, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+.primary:hover {
+  background: linear-gradient(135deg, rgba(67, 160, 71, 0.9), rgba(46, 125, 50, 0.95));
+  box-shadow:
+    0 4px 16px rgba(76, 175, 79, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  transform: translateY(-1px);
+}
+.primary:focus  { box-shadow: 0 0 0 3px rgba(76, 175, 79, 0.4); outline: none; }
+.primary:active { transform: translateY(0); }
+
+/* ---- Secondary — frosted glass outlined ---- */
+.secondary {
+  background: rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+.secondary:hover {
+  background: rgba(255, 255, 255, 0.22);
+  border-color: rgba(255, 255, 255, 0.5);
+  box-shadow:
+    0 4px 16px rgba(0, 0, 0, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  transform: translateY(-1px);
+}
+.secondary:focus  { box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.25); outline: none; }
+.secondary:active { transform: translateY(0); }
+
+/* ---- Tertiary (text only) ---- */
+.tertiary {
+  background: transparent;
+  color: rgba(255, 255, 255, 0.7);
+  border: 1px solid transparent;
+}
+.tertiary:hover {
+  color: rgba(255, 255, 255, 0.95);
+  background: rgba(255, 255, 255, 0.08);
+}
+.tertiary:focus { outline: none; }
+
+/* ---- Link ---- */
+.link {
+  background: none;
+  border: none;
+  color: var(--primary);
+  font-size: 14px;
+  font-weight: 600;
+  padding: 0;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  text-decoration: none;
+}
+.link:hover { text-decoration: underline; }
+
+/* ---- Disabled ---- */
+.btn:disabled,
+.disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+  pointer-events: none;
+}

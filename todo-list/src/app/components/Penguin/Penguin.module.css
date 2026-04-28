@@ -1,0 +1,34 @@
+/* =============================================================
+   PENGUIN.MODULE.CSS — Mascot fixed bottom-left
+   ============================================================= */
+
+.wrapper {
+  position: fixed;
+  bottom: 20px;
+  left: 24px;
+  z-index: 1000;
+  width: 420px;
+  height: 420px;
+  cursor: pointer;
+}
+
+/* Base image — always visible underneath */
+.penguin {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 420px;
+  height: 420px;
+  object-fit: contain;
+  pointer-events: none;
+}
+
+/* TalkingP sits on top, hidden by default, instant swap */
+.talking {
+  z-index: 1;
+  opacity: 0;
+}
+
+.talking.show {
+  opacity: 1;
+}
