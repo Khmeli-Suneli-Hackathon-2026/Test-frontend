@@ -1,16 +1,20 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import Button from './Button/Button';
 import Input from './Input/Input';
+import { login, saveToken } from '../lib/auth';
 import styles from './LoginPage.module.css';
 
 export default function LoginPage() {
+  const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [apiError, setApiError] = useState('');
 
   const validate = () => {
     const newErrors = {};
@@ -21,7 +25,7 @@ export default function LoginPage() {
     return newErrors;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const foundErrors = validate();
     if (Object.keys(foundErrors).length > 0) {
@@ -29,12 +33,26 @@ export default function LoginPage() {
       return;
     }
     setErrors({});
+    setApiError('');
     setLoading(true);
-    // Simulate request
-    setTimeout(() => {
+
+    try {
+      const data = await login(email, password);
+
+      // Save JWT token to cookies + localStorage
+      saveToken(data.token);
+
       setLoading(false);
       setSuccess(true);
-    }, 1200);
+
+      // Redirect to home page after a brief success message
+      setTimeout(() => {
+        router.push('/');
+      }, 1500);
+    } catch (err) {
+      setLoading(false);
+      setApiError(err.message || 'Помилка входу. Спробуйте ще раз.');
+    }
   };
 
   return (
@@ -71,6 +89,12 @@ export default function LoginPage() {
             </div>
           ) : (
             <form className={styles.form} onSubmit={handleSubmit} noValidate>
+              {apiError && (
+                <div className={styles.apiError} role="alert">
+                  {apiError}
+                </div>
+              )}
+
               <Input
                 id="login-email"
                 label="Email"
@@ -118,3 +142,4 @@ export default function LoginPage() {
     </main>
   );
 }
+
