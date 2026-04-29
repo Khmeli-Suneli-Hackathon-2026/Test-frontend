@@ -17,11 +17,23 @@ export default function TodoPage() {
   const [filter, setFilter] = useState('Всі');
   const [error, setError] = useState('');
   const [loggedIn, setLoggedIn] = useState(false);
+  const [authChecked, setAuthChecked] = useState(false);
 
-  // Check auth status on mount
+  // Check auth status on mount — redirect to /login if no token
   useEffect(() => {
-    setLoggedIn(isAuthenticated());
-  }, []);
+    const authenticated = isAuthenticated();
+    if (!authenticated) {
+      router.push('/login');
+      return;
+    }
+    setLoggedIn(true);
+    setAuthChecked(true);
+  }, [router]);
+
+  // Show nothing while checking auth (prevents flash of protected content)
+  if (!authChecked) {
+    return null;
+  }
 
   const handleLogout = () => {
     removeToken();
