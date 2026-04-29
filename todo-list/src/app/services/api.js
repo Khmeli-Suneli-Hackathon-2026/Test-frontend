@@ -1,42 +1,53 @@
-/* =============================================================
-   API CLIENT — Базовий HTTP-клієнт для запитів до бекенду
-   ============================================================= */
-
+import axios from 'axios';
 import { getToken } from '../lib/auth';
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api';
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api';
 
-async function request(endpoint, options = {}) {
-  const token = getToken();
-
-  const headers = {
+/**
+ * Створюємо екземпляр axios з базовими налаштуваннями
+ */
+const api = axios.create({
+  baseURL: API_BASE_URL,
+  headers: {
     'Content-Type': 'application/json',
-    ...(token ? { Authorization: `Bearer ${token}` } : {}),
-    ...options.headers,
-  };
+  },
+});
 
-  const response = await fetch(`${API_BASE}${endpoint}`, {
-    ...options,
-    headers,
-  });
-
-  if (!response.ok) {
-    const errorData = await response.json().catch(() => ({}));
-    const error = new Error(errorData.message || `Помилка запиту: ${response.status}`);
-    error.status = response.status;
-    throw error;
+/**
+ * Інтерцептор для запитів: автоматично додає Authorization заголовок
+ */
+api.interceptors.request.use(
+  (config) => {
+    const token = getToken();
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
   }
+);
 
-  if (response.status === 204) return null;
-  return response.json();
-}
+/**
+ * Інтерцептор для відповідей: централізована обробка помилок
+ */
+api.interceptors.response.use(
+  (response) => {
+    // Axios повертає дані у полі .data
+    return response.data;
+  },
+  (error) => {
+    const message = error.response?.data?.message || error.message || 'Щось пішло не так';
+    
+    if (error.response?.status === 401) {
+      console.warn('⚠️ Сесія завершена або токен невалідний');
+      // Тут можна додати автоматичний logout або редирект
+    }
 
-const api = {
-  get: (endpoint) => request(endpoint, { method: 'GET' }),
-  post: (endpoint, body) => request(endpoint, { method: 'POST', body: JSON.stringify(body) }),
-  put: (endpoint, body) => request(endpoint, { method: 'PUT', body: JSON.stringify(body) }),
-  patch: (endpoint, body) => request(endpoint, { method: 'PATCH', body: JSON.stringify(body) }),
-  delete: (endpoint) => request(endpoint, { method: 'DELETE' }),
-};
+    console.error('❌ API Error:', message);
+    return Promise.reject(new Error(message));
+  }
+);
 
-export default api;
+export { api };

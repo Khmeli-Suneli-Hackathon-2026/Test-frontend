@@ -1,18 +1,31 @@
-/* =============================================================
-   TODO SERVICE — HTTP-запити для задач
-   ============================================================= */
-
-import api from './api';
+import { api } from './api';
 
 export const todoService = {
-  getAll: () => api.get('/todos'),
-  
   /**
-   * Створити нову задачу.
-   * @param {{ text: string, description?: string, priority: string }} taskData
+   * Отримати всі завдання
    */
-  create: (taskData) => api.post('/todos', taskData),
-  
-  update: (id, updates) => api.patch(`/todos/${id}`, updates),
-  delete: (id) => api.delete(`/todos/${id}`),
+  getAll: async () => {
+    return api.get('/todos');
+  },
+
+  /**
+   * Створити нове завдання
+   */
+  create: async (todoData) => {
+    return api.post('/todos', todoData);
+  },
+
+  /**
+   * Оновити завдання (статус, текст тощо)
+   */
+  update: async (id, updates) => {
+    return api.patch(`/todos/${id}`, updates);
+  },
+
+  /**
+   * Видалити завдання
+   */
+  delete: async (id) => {
+    return api.delete(`/todos/${id}`);
+  },
 };
