@@ -1,18 +1,33 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import Button from '../components/Button/Button';
 import Input from '../components/Input/Input';
 import Card from '../components/Card/Card';
+import { isAuthenticated, removeToken } from '../lib/auth';
 import styles from './TodoPage.module.css';
 
 const FILTERS = ['Всі', 'Активні', 'Виконані'];
 
 export default function TodoPage() {
+  const router = useRouter();
   const [tasks, setTasks] = useState([]);
   const [inputValue, setInputValue] = useState('');
   const [filter, setFilter] = useState('Всі');
   const [error, setError] = useState('');
+  const [loggedIn, setLoggedIn] = useState(false);
+
+  // Check auth status on mount
+  useEffect(() => {
+    setLoggedIn(isAuthenticated());
+  }, []);
+
+  const handleLogout = () => {
+    removeToken();
+    setLoggedIn(false);
+    router.push('/login');
+  };
 
   const addTask = () => {
     if (!inputValue.trim()) {
@@ -56,9 +71,15 @@ export default function TodoPage() {
           <div className={styles.logo}>
             <span className={styles.logoText}>ToDo List</span>
           </div>
-          <Button href="/login" variant="secondary" size="medium">
-            Увійти
-          </Button>
+          {loggedIn ? (
+            <Button variant="secondary" size="medium" onClick={handleLogout}>
+              Вийти
+            </Button>
+          ) : (
+            <Button href="/login" variant="secondary" size="medium">
+              Увійти
+            </Button>
+          )}
         </div>
       </header>
 
