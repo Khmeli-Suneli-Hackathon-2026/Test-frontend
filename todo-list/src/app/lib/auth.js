@@ -25,6 +25,7 @@ export function saveToken(token) {
  * Retrieve JWT token from cookies.
  */
 export function getToken() {
+  if (typeof document === 'undefined') return null;
   const match = document.cookie.match(
     new RegExp('(?:^|;\\s*)' + TOKEN_KEY + '=([^;]*)')
   );

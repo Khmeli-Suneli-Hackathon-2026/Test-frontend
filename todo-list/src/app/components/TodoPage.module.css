@@ -117,17 +117,38 @@
   flex: 1;
 }
 
-/* ---- Filter tabs ---- */
+/* ---- Filter section ---- */
+.filterSection {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  padding-bottom: 20px;
+}
+
+.filterGroup {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.filterLabel {
+  font-size: 13px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.5);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  width: 90px;
+}
+
 .filters {
   display: flex;
   gap: 4px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
-  padding-bottom: 12px;
 }
 
 .filterBtn {
   padding: 6px 18px;
-  border: none;
+  border: 1px solid transparent;
   background: none;
   border-radius: 20px;
   font-size: 14px;
@@ -135,18 +156,37 @@
   font-weight: 500;
   color: rgba(255, 255, 255, 0.6);
   cursor: pointer;
-  transition: background 0.2s ease, color 0.2s ease;
+  transition: all 0.2s ease;
 }
 
 .filterBtn:hover {
-  background: rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.1);
   color: rgba(255, 255, 255, 0.95);
 }
 
 .filterActive {
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.15);
   color: rgba(255, 255, 255, 0.97);
   font-weight: 600;
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.filterActive.btn_low {
+  background: rgba(76, 175, 79, 0.2);
+  color: #81c784;
+  border-color: rgba(76, 175, 79, 0.4);
+}
+
+.filterActive.btn_medium {
+  background: rgba(255, 183, 77, 0.2);
+  color: #ffb74d;
+  border-color: rgba(255, 183, 77, 0.4);
+}
+
+.filterActive.btn_high {
+  background: rgba(244, 67, 54, 0.2);
+  color: #e57373;
+  border-color: rgba(244, 67, 54, 0.4);
 }
 
 /* ---- Task list ---- */
@@ -202,44 +242,117 @@
   background: none;
   border: none;
   cursor: pointer;
-  font-size: 20px;
   padding: 0;
   flex-shrink: 0;
-  line-height: 1;
-  transition: transform 0.15s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff; /* Всі значки білі */
+  transition: transform 0.15s ease, opacity 0.2s ease;
 }
 
 .checkbox:hover {
-  transform: scale(1.2);
+  transform: scale(1.1);
+  opacity: 0.8;
+}
+
+.checkboxDone {
+  color: #4CAF50; /* Можна залишити зелений для виконаних, або теж білий. Залишу білий за запитом. */
+  color: #ffffff;
+}
+
+.taskContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0; /* Дозволяє тексту скорочуватись */
+}
+
+.taskTopRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.taskMeta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.taskDate {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.4);
+  font-family: monospace;
 }
 
 .taskText {
-  flex: 1;
-  font-size: 15px;
-  color: rgba(255, 255, 255, 0.92);
-  line-height: 1.5;
+  font-size: 16px;
+  font-weight: 600;
+  color: #ffffff;
+  line-height: 1.4;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-.itemDone .taskText {
-  text-decoration: line-through;
-  color: rgba(255, 255, 255, 0.7);
+.taskDescription {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.6);
+  line-height: 1.4;
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+.priorityBadge {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  border-radius: 6px;
+  letter-spacing: 0.02em;
+  flex-shrink: 0;
+}
+
+.priority_low {
+  background: rgba(76, 175, 80, 0.2);
+  color: #81C784;
+  border: 1px solid rgba(76, 175, 80, 0.3);
+}
+
+.priority_medium {
+  background: rgba(255, 183, 77, 0.2);
+  color: #FFB74D;
+  border: 1px solid rgba(255, 183, 77, 0.3);
+}
+
+.priority_high {
+  background: rgba(244, 67, 54, 0.2);
+  color: #E57373;
+  border: 1px solid rgba(244, 67, 54, 0.3);
 }
 
 .deleteBtn {
   background: none;
   border: none;
-  color: rgba(255, 255, 255, 0.4);
+  color: #ffffff; /* Білий */
   cursor: pointer;
-  font-size: 14px;
-  padding: 4px 8px;
+  padding: 6px;
   border-radius: 8px;
-  transition: color 0.2s ease, background 0.2s ease;
-  flex-shrink: 0;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.6;
 }
 
 .deleteBtn:hover {
-  color: rgba(255, 100, 100, 0.95);
-  background: rgba(255, 80, 80, 0.15);
+  opacity: 1;
+  background: rgba(255, 80, 80, 0.2);
+  color: #ff8080;
 }
 
 /* ---- List footer ---- */
@@ -251,9 +364,90 @@
   border-top: 1px solid rgba(255, 255, 255, 0.12);
 }
 
+.itemEditing {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.4);
+  transform: scale(1.01);
+}
+
+.editFields {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+.editInput, .editTextarea {
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  padding: 8px 12px;
+  color: white;
+  font-family: inherit;
+  font-size: 14px;
+  outline: none;
+  width: 100%;
+}
+
+.editInput:focus, .editTextarea:focus {
+  border-color: rgba(255, 255, 255, 0.5);
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.editTextarea {
+  min-height: 60px;
+  resize: vertical;
+}
+
+.itemActions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.actionBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  opacity: 0.6;
+  color: #ffffff; /* Всі значки білі */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.actionBtn:hover {
+  opacity: 1;
+  background: rgba(255, 255, 255, 0.15);
+  transform: scale(1.1);
+}
+
+.btnDelete:hover {
+  background: rgba(255, 80, 80, 0.2);
+  color: #ff8080;
+}
+
 .doneHint {
   font-size: 13px;
   color: rgba(255, 255, 255, 0.55);
+}
+
+.loader {
+  width: 24px;
+  height: 24px;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-top-color: rgba(255, 255, 255, 0.8);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin-bottom: 8px;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }
 
 /* ---- Responsive ---- */
