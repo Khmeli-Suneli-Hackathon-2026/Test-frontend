@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Button from './Button/Button';
 import Input from './Input/Input';
+import { IconLock } from './Icons';
 import styles from './LoginPage.module.css';
 
 export default function LoginPage() {
@@ -55,7 +56,9 @@ export default function LoginPage() {
       <div className={styles.center}>
         <div className={styles.card}>
           {/* Icon */}
-          <div className={styles.iconBadge} aria-hidden="true">🔐</div>
+          <div className={styles.iconBadge} aria-hidden="true">
+            <IconLock />
+          </div>
 
           <div className={styles.cardHeader}>
             <h1 className={styles.title}>Вхід в акаунт</h1>

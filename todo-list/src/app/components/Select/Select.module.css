@@ -1,0 +1,53 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+}
+
+.label {
+  font-size: 13px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.selectContainer {
+  position: relative;
+  width: 100%;
+}
+
+.select {
+  width: 100%;
+  appearance: none;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 12px;
+  padding: 13px 40px 13px 16px;
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.95);
+  outline: none;
+  cursor: pointer;
+  backdrop-filter: blur(16px);
+}
+
+.select option {
+  background: #1a1a2e;
+  color: white;
+}
+
+.arrow {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: rgba(255, 255, 255, 0.5);
+  pointer-events: none;
+}
+
+.hint, .hintError {
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.hint { color: rgba(255, 255, 255, 0.5); }
+.hintError { color: rgba(255, 120, 120, 0.9); }
