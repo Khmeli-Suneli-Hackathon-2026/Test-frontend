@@ -1,20 +1,17 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 import Button from './Button/Button';
 import Input from './Input/Input';
-import { login, saveToken } from '../lib/auth';
+import { useAuth } from '../hooks/useAuth';
 import styles from './LoginPage.module.css';
 
 export default function LoginPage() {
-  const router = useRouter();
+  const { handleLogin, loading, error: apiError, clearError } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState({});
-  const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
-  const [apiError, setApiError] = useState('');
 
   const validate = () => {
     const newErrors = {};
@@ -33,25 +30,12 @@ export default function LoginPage() {
       return;
     }
     setErrors({});
-    setApiError('');
-    setLoading(true);
+    clearError();
 
-    try {
-      const data = await login(email, password);
-
-      // Save JWT token to cookies + localStorage
-      saveToken(data.token);
-
-      setLoading(false);
+    const ok = await handleLogin(email, password);
+    if (ok) {
       setSuccess(true);
-
-      // Redirect to home page after a brief success message
-      setTimeout(() => {
-        router.push('/');
-      }, 1500);
-    } catch (err) {
-      setLoading(false);
-      setApiError(err.message || 'Помилка входу. Спробуйте ще раз.');
+      // Редирект відбувається автоматично через useAuth
     }
   };
 
@@ -142,4 +126,3 @@ export default function LoginPage() {
     </main>
   );
 }
-
