@@ -4,16 +4,31 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Button from '../components/Button/Button';
 import Input from '../components/Input/Input';
+import Select from '../components/Select/Select';
 import Card from '../components/Card/Card';
 import { isAuthenticated, removeToken } from '../lib/auth';
 import styles from './TodoPage.module.css';
 
 const FILTERS = ['Всі', 'Активні', 'Виконані'];
 
+const PRIORITY_OPTIONS = [
+  { value: 'low', label: 'Low' },
+  { value: 'medium', label: 'Medium' },
+  { value: 'high', label: 'High' },
+];
+
+const PRIORITY_LABELS = {
+  low: 'Low',
+  medium: 'Medium',
+  high: 'High',
+};
+
 export default function TodoPage() {
   const router = useRouter();
   const [tasks, setTasks] = useState([]);
   const [inputValue, setInputValue] = useState('');
+  const [descriptionValue, setDescriptionValue] = useState('');
+  const [priorityValue, setPriorityValue] = useState('low');
   const [filter, setFilter] = useState('Всі');
   const [error, setError] = useState('');
   const [loggedIn, setLoggedIn] = useState(false);
@@ -48,9 +63,17 @@ export default function TodoPage() {
     }
     setTasks([
       ...tasks,
-      { id: Date.now(), text: inputValue.trim(), done: false },
+      {
+        id: Date.now(),
+        text: inputValue.trim(),
+        description: descriptionValue.trim(),
+        priority: priorityValue,
+        done: false,
+      },
     ]);
     setInputValue('');
+    setDescriptionValue('');
+    setPriorityValue('low');
     setError('');
   };
 
@@ -116,22 +139,41 @@ export default function TodoPage() {
         <section className={styles.todoBlock}>
           <h2 className={styles.blockTitle}>Мої задачі</h2>
 
-          {/* Add task */}
-          <div className={styles.addRow}>
-            <Input
-              placeholder="Нова задача..."
-              value={inputValue}
-              onChange={(e) => {
-                setInputValue(e.target.value);
-                if (error) setError('');
-              }}
-              onKeyDown={(e) => e.key === 'Enter' && addTask()}
-              error={error}
-              id="new-task-input"
-            />
-            <Button onClick={addTask} size="medium" id="add-task-btn">
-              + Додати
-            </Button>
+          {/* Add task form */}
+          <div className={styles.addForm}>
+            <div className={styles.addRow}>
+              <Input
+                label="Назва"
+                placeholder="Нова задача..."
+                value={inputValue}
+                onChange={(e) => {
+                  setInputValue(e.target.value);
+                  if (error) setError('');
+                }}
+                onKeyDown={(e) => e.key === 'Enter' && addTask()}
+                error={error}
+                id="new-task-input"
+              />
+              <Select
+                label="Терміновість"
+                options={PRIORITY_OPTIONS}
+                value={priorityValue}
+                onChange={(e) => setPriorityValue(e.target.value)}
+                id="new-task-priority"
+              />
+            </div>
+            <div className={styles.addRow}>
+              <Input
+                label="Опис"
+                placeholder="Додатковий опис задачі (необов'язково)..."
+                value={descriptionValue}
+                onChange={(e) => setDescriptionValue(e.target.value)}
+                id="new-task-description"
+              />
+              <Button onClick={addTask} size="medium" id="add-task-btn">
+                + Додати
+              </Button>
+            </div>
           </div>
 
           {/* Filter tabs */}
@@ -165,7 +207,17 @@ export default function TodoPage() {
                 >
                   {task.done ? '✔️' : '⬜'}
                 </button>
-                <span className={styles.taskText}>{task.text}</span>
+                <div className={styles.taskContent}>
+                  <div className={styles.taskTopRow}>
+                    <span className={styles.taskText}>{task.text}</span>
+                    <span className={`${styles.priorityBadge} ${styles[`priority_${task.priority}`]}`}>
+                      {PRIORITY_LABELS[task.priority]}
+                    </span>
+                  </div>
+                  {task.description && (
+                    <span className={styles.taskDescription}>{task.description}</span>
+                  )}
+                </div>
                 <button
                   className={styles.deleteBtn}
                   onClick={() => deleteTask(task.id)}

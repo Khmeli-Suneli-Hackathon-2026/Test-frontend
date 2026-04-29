@@ -106,11 +106,18 @@
   text-shadow: 0 1px 6px rgba(0,0,0,0.3);
 }
 
+/* ---- Add form ---- */
+.addForm {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
 /* ---- Add row ---- */
 .addRow {
   display: flex;
   gap: 12px;
-  align-items: flex-start;
+  align-items: flex-end;
 }
 
 .addRow > div {
@@ -218,6 +225,55 @@
   font-size: 15px;
   color: rgba(255, 255, 255, 0.92);
   line-height: 1.5;
+}
+
+.taskContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.taskTopRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.taskDescription {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.55);
+  line-height: 1.4;
+}
+
+/* ---- Priority badge ---- */
+.priorityBadge {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 10px;
+  border-radius: 20px;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.priority_low {
+  background: rgba(76, 175, 79, 0.2);
+  color: rgba(130, 220, 130, 0.95);
+  border: 1px solid rgba(76, 175, 79, 0.3);
+}
+
+.priority_medium {
+  background: rgba(255, 183, 77, 0.2);
+  color: rgba(255, 210, 130, 0.95);
+  border: 1px solid rgba(255, 183, 77, 0.3);
+}
+
+.priority_high {
+  background: rgba(244, 67, 54, 0.2);
+  color: rgba(255, 140, 130, 0.95);
+  border: 1px solid rgba(244, 67, 54, 0.3);
 }
 
 .itemDone .taskText {

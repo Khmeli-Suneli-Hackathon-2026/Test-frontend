@@ -1,0 +1,115 @@
+/* =============================================================
+   SELECT.MODULE.CSS — Apple Liquid Glass Style
+   ============================================================= */
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+}
+
+.label {
+  font-size: 13px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.85);
+  letter-spacing: 0.02em;
+}
+
+.selectContainer {
+  position: relative;
+  width: 100%;
+}
+
+.select {
+  width: 100%;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 12px;
+  padding: 13px 40px 13px 16px;
+  font-size: 15px;
+  font-family: inherit;
+  color: rgba(255, 255, 255, 0.95);
+  outline: none;
+  cursor: pointer;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.15),
+    0 2px 8px rgba(0, 0, 0, 0.1);
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+/* Style the dropdown options */
+.select option {
+  background: #1a1a2e;
+  color: rgba(255, 255, 255, 0.95);
+  padding: 8px 16px;
+}
+
+.select:focus {
+  background: rgba(255, 255, 255, 0.16);
+  border-color: rgba(255, 255, 255, 0.5);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.2),
+    0 0 0 3px rgba(255, 255, 255, 0.12),
+    0 2px 12px rgba(0, 0, 0, 0.15);
+}
+
+.select:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.14);
+  border-color: rgba(255, 255, 255, 0.35);
+}
+
+/* ---- Arrow indicator ---- */
+.arrow {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.5);
+  pointer-events: none;
+  transition: color 0.2s ease;
+}
+
+.selectContainer:hover .arrow {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* ---- States ---- */
+.selectError {
+  border-color: rgba(255, 90, 90, 0.7);
+  background: rgba(255, 80, 80, 0.08);
+}
+.selectError:focus {
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.15),
+    0 0 0 3px rgba(255, 80, 80, 0.2);
+}
+
+.selectDisabled {
+  background: rgba(255, 255, 255, 0.05);
+  color: rgba(255, 255, 255, 0.3);
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* ---- Hint / Error text ---- */
+.hint {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.5);
+  line-height: 1.4;
+}
+
+.hintError {
+  font-size: 12px;
+  color: rgba(255, 120, 120, 0.9);
+  line-height: 1.4;
+}
