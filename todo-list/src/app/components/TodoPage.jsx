@@ -229,9 +229,15 @@ export default function TodoPage() {
           <div className={styles.logo}>
             <span className={styles.logoText}>ToDo List</span>
           </div>
-          <Button variant="secondary" size="medium" onClick={handleLogout}>
-            Вийти
-          </Button>
+          {loggedIn ? (
+            <Button variant="secondary" size="medium" onClick={handleLogout}>
+              Вийти
+            </Button>
+          ) : (
+            <Button href="/login" variant="secondary" size="medium">
+              Увійти
+            </Button>
+          )}
         </div>
       </header>
 
